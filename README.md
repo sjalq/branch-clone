@@ -68,6 +68,339 @@ branch-clone . feature-x --claude --continue
 branch-clone . refactor --claude --model opus "refactor the API layer"
 ```
 
+## Examples
+
+### Example 1: Starting Work on a New Feature
+
+**Scenario**: You're working on the main branch and need to start a new feature without disrupting your current setup.
+
+```bash
+cd ~/git/myapp
+branch-clone . feature-payment-integration
+```
+
+**Expected Output**:
+```
+=== branch-clone v1.0.0 ===
+
+Repository: /Users/sjalq/git/myapp
+Branch: feature-payment-integration
+Worktree: /Users/sjalq/git/myapp-feature-payment-integration
+
+Creating worktree at /Users/sjalq/git/myapp-feature-payment-integration...
+Switched to a new branch 'feature-payment-integration'
+
+✓ Worktree created successfully
+✓ Branch 'feature-payment-integration' created
+✓ Pushed to origin and set up tracking
+
+=== Summary ===
+Worktree ready at: /Users/sjalq/git/myapp-feature-payment-integration
+
+Next steps:
+  cd /Users/sjalq/git/myapp-feature-payment-integration
+  npm install  # Install dependencies
+  npm run dev  # Start development
+```
+
+### Example 2: Reviewing a Pull Request
+
+**Scenario**: A teammate created PR #456 and you need to test it locally without affecting your current work.
+
+```bash
+branch-clone https://github.com/company/project.git pr-456-database-migration
+cd ~/git/project-pr-456-database-migration
+npm install
+npm test
+```
+
+**Expected Output**:
+```
+=== branch-clone v1.0.0 ===
+
+Extracting repository info from URL...
+Repository: project
+Main repo will be: /Users/sjalq/git/project
+Worktree will be: /Users/sjalq/git/project-pr-456-database-migration
+
+Main repository already exists at /Users/sjalq/git/project
+Fetching latest changes...
+
+Creating worktree at /Users/sjalq/git/project-pr-456-database-migration...
+Switched to a new branch 'pr-456-database-migration'
+
+✓ Worktree created successfully
+✓ Ready for PR review
+
+=== Summary ===
+Worktree ready at: /Users/sjalq/git/project-pr-456-database-migration
+```
+
+### Example 3: Quick Hotfix While Working on a Feature
+
+**Scenario**: You're deep into feature development when a critical bug is reported. You need to fix it immediately without losing your current work.
+
+```bash
+# Currently in feature branch with uncommitted changes
+pwd  # /Users/sjalq/git/webapp-feature-dashboard
+
+# Create hotfix worktree
+branch-clone . hotfix-login-timeout
+cd ~/git/webapp-hotfix-login-timeout
+
+# Fix the bug, test, commit
+git add .
+git commit -m "Fix login timeout issue"
+git push
+
+# Return to feature work
+cd ~/git/webapp-feature-dashboard
+# Your uncommitted changes are still there!
+```
+
+**Expected Output**:
+```
+=== branch-clone v1.0.0 ===
+
+Repository: /Users/sjalq/git/webapp (main repository)
+Branch: hotfix-login-timeout
+Worktree: /Users/sjalq/git/webapp-hotfix-login-timeout
+
+Creating worktree at /Users/sjalq/git/webapp-hotfix-login-timeout...
+Switched to a new branch 'hotfix-login-timeout'
+
+✓ Worktree created successfully
+✓ Branch 'hotfix-login-timeout' created
+✓ Pushed to origin and set up tracking
+
+=== Summary ===
+Worktree ready at: /Users/sjalq/git/webapp-hotfix-login-timeout
+```
+
+### Example 4: First-Time Repository Clone
+
+**Scenario**: You want to start working on a new open-source project you've never cloned before.
+
+```bash
+branch-clone https://github.com/facebook/react.git explore-hooks-implementation
+```
+
+**Expected Output**:
+```
+=== branch-clone v1.0.0 ===
+
+Extracting repository info from URL...
+Repository: react
+Main repo will be: /Users/sjalq/git/react
+Worktree will be: /Users/sjalq/git/react-explore-hooks-implementation
+
+Main repository does not exist. Cloning...
+Cloning into '/Users/sjalq/git/react'...
+remote: Enumerating objects: 234567, done.
+remote: Counting objects: 100% (1234/1234), done.
+remote: Compressing objects: 100% (567/567), done.
+remote: Total 234567 (delta 890), reused 1100 (delta 600)
+Receiving objects: 100% (234567/234567), 45.67 MiB | 8.34 MiB/s, done.
+Resolving deltas: 100% (123456/123456), done.
+
+Creating worktree at /Users/sjalq/git/react-explore-hooks-implementation...
+Switched to a new branch 'explore-hooks-implementation'
+
+✓ Worktree created successfully
+✓ Main repository cloned to /Users/sjalq/git/react
+
+=== Summary ===
+Worktree ready at: /Users/sjalq/git/react-explore-hooks-implementation
+
+Next steps:
+  cd /Users/sjalq/git/react-explore-hooks-implementation
+  npm install
+```
+
+### Example 5: Claude Code Integration for AI-Assisted Development
+
+**Scenario**: You want to use Claude to help implement a new feature.
+
+```bash
+branch-clone . feature-user-analytics --claude "Add user analytics dashboard with charts for daily active users, retention rate, and session duration. Use the existing Chart.js library."
+```
+
+**Expected Output**:
+```
+=== branch-clone v1.0.0 ===
+
+Repository: /Users/sjalq/git/dashboard
+Branch: feature-user-analytics
+Worktree: /Users/sjalq/git/dashboard-feature-user-analytics
+
+Creating worktree...
+✓ Worktree ready at /Users/sjalq/git/dashboard-feature-user-analytics
+
+Launching Claude Code...
+
+[Claude Code session starts]
+Claude: I'll help you add a user analytics dashboard. Let me first examine the existing codebase structure...
+```
+
+### Example 6: Continuing a Claude Code Session
+
+**Scenario**: You started working with Claude yesterday and want to continue where you left off.
+
+```bash
+branch-clone . feature-api-refactor --claude --continue
+```
+
+**Expected Output**:
+```
+=== branch-clone v1.0.0 ===
+
+Repository: /Users/sjalq/git/backend
+Branch: feature-api-refactor
+Worktree: /Users/sjalq/git/backend-feature-api-refactor
+
+Worktree already exists at /Users/sjalq/git/backend-feature-api-refactor
+Branch 'feature-api-refactor' already checked out
+
+✓ Using existing worktree
+
+Launching Claude Code with --continue...
+
+[Claude Code resumes previous session]
+Claude: Welcome back! Last time we were refactoring the authentication endpoints. Let me show you what we completed...
+```
+
+### Example 7: Running Tests in Parallel Across Branches
+
+**Scenario**: You want to verify that tests pass on multiple branches simultaneously.
+
+```bash
+# Terminal 1
+branch-clone . feature-a
+cd ~/git/myapp-feature-a
+npm install && npm test
+
+# Terminal 2
+branch-clone . feature-b
+cd ~/git/myapp-feature-b
+npm install && npm test
+
+# Terminal 3
+branch-clone . main
+cd ~/git/myapp-main
+npm install && npm test
+```
+
+**Benefits**:
+- All three test suites run in parallel
+- Each has isolated `node_modules` and dependencies
+- No conflicts or race conditions
+- One `git fetch` updates all worktrees
+
+### Example 8: Experimenting with Different Approaches
+
+**Scenario**: You're not sure which implementation approach is better, so you want to try both.
+
+```bash
+# Approach 1: Using Redux
+branch-clone . experiment-redux-state
+cd ~/git/app-experiment-redux-state
+npm install redux react-redux
+# Implement using Redux...
+
+# Approach 2: Using Context API (in another terminal)
+branch-clone . experiment-context-state
+cd ~/git/app-experiment-context-state
+# Implement using Context API...
+
+# Compare both running side-by-side
+# Terminal 1: npm run dev  # Port 3000
+# Terminal 2: npm run dev -- --port 3001
+```
+
+### Example 9: Working with Environment-Specific Configurations
+
+**Scenario**: You need different `.env` files for different features.
+
+```bash
+# Production hotfix
+branch-clone . hotfix-prod-issue
+cd ~/git/api-hotfix-prod-issue
+cp .env.production .env
+npm run test:prod
+
+# Development feature (in another terminal)
+branch-clone . feature-new-endpoint
+cd ~/git/api-feature-new-endpoint
+cp .env.development .env
+npm run dev
+```
+
+**Result**: Each worktree maintains its own `.env` file, preventing accidental environment mixing.
+
+### Example 10: Automated Workflow for Agent Systems
+
+**Scenario**: A parent Claude agent wants to delegate specific tasks to sub-agents.
+
+```bash
+# Parent agent script
+for task_id in 101 102 103; do
+  branch-clone . task-$task_id --claude "$(cat tasks/$task_id.txt)" &
+done
+wait
+```
+
+**Expected Output** (per task):
+```
+=== branch-clone v1.0.0 ===
+Repository: /Users/sjalq/git/project
+Branch: task-101
+Worktree: /Users/sjalq/git/project-task-101
+✓ Worktree ready
+Launching Claude Code...
+```
+
+**Benefits**:
+- Minimal output mode (automatic with `--claude`)
+- Parallel task execution
+- Isolated working directories
+- Full Claude Code integration
+
+### Example 11: Checking Worktree Status
+
+**Scenario**: You've created several worktrees and want to see them all.
+
+```bash
+git worktree list
+```
+
+**Expected Output**:
+```
+/Users/sjalq/git/myapp              abc1234 [main]
+/Users/sjalq/git/myapp-feature-auth def5678 [feature-auth]
+/Users/sjalq/git/myapp-feature-api  ghi9012 [feature-api]
+/Users/sjalq/git/myapp-hotfix       jkl3456 [hotfix-critical]
+```
+
+### Example 12: Cleaning Up After Review
+
+**Scenario**: You've finished reviewing a PR and want to remove the worktree.
+
+```bash
+# Done with review
+cd ~
+git worktree remove ~/git/project-pr-456-database-migration
+
+# Optionally delete the remote branch if merged
+cd ~/git/project
+git branch -d pr-456-database-migration
+git push origin --delete pr-456-database-migration
+```
+
+**Expected Output**:
+```
+Removing worktrees/pr-456-database-migration: valid
+```
+
 ## How It Works
 
 ### Local Repository (`.`)
